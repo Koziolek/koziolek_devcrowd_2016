@@ -11,7 +11,10 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -51,6 +54,28 @@ public class CustomerService {
 				.orElseGet(Collections::emptyList)
 				.stream()
 				.map(updater.andThen(invoiceDao::saveAndFlush));
+	}
+
+	public Invoice sumUp(Long id) {
+		Collection<Invoice> invoices = Optional.ofNullable(dao.findOne(id))
+				.map(Customer::getInvoices)
+				.orElseGet(Collections::emptyList);
+
+		Predicate<Invoice> notNull = i -> i != null;
+		Predicate<Invoice> notOlderThan = i -> i != null;
+		Predicate<Invoice> lessThan = i -> i != null;
+		Function<Invoice, Invoice> asB2bInvoice = i -> i;
+		Function<Invoice, Invoice> fvM = i -> i;
+		BinaryOperator<Invoice> summary = (l, r) -> l;
+
+
+		Consumer<Customer> someOtherService = c -> c;
+		invoices.stream()
+				.peek(i -> someOtherService.accept(i.getCustomer()))
+				.flatMap(i -> i.getItems().stream())
+				.reduce(itemSummary);
+
+
 	}
 
 

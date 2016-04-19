@@ -21,6 +21,21 @@ import javax.persistence.Table;
 public class Invoice {
 
 
+	public Invoice() {
+	}
+
+	public Invoice(Invoice other) {
+		this.id = other.id;
+		this.customer = other.customer;
+		this.total = other.total;
+	}
+
+	public Invoice(Long id, Customer customer, double total) {
+		this.id = id;
+		this.customer = customer;
+		this.total = total;
+	}
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Long id;

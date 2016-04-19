@@ -10,6 +10,7 @@ import pl.koziolekweb.devcrowd16.data.Invoice;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,10 +43,7 @@ public class CustomerController {
 
 	@RequestMapping(path = "/customer/update/{id}", method = RequestMethod.GET)
 	public Collection<Invoice> updateCustomerInvoices(@PathVariable("id") Long id) {
-		Stream<Invoice> invoiceStream = service.updateInvoices(id, i -> {
-			i.setTotal(i.getTotal() + 1);
-			return i;
-		});
+		Stream<Invoice> invoiceStream = service.updateInvoices(id, i -> new Invoice(i.getId(), i.getCustomer(), i.getTotal() + 1));
 		return invoiceStream.collect(Collectors.toList());
 	}
 
