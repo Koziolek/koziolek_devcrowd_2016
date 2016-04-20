@@ -96,7 +96,7 @@
             </section>
 
             <section>
-                <pre class="java"><code data-trim>
+                <pre><code data-trim class="java">
 Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
                     new Function&lt;Invoice, Invoice&gt;() {
 	@Override
@@ -106,10 +106,8 @@ Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
 	}
 });</code>
                 </pre>
-            </section>
-
-            <section>
-                <pre class="java"><code data-trim>
+                <div class="fragment">
+                <pre><code data-trim class="java">
 Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
                     i-> {
 		                i.setTotal(i.getTotal() + 1);
@@ -117,6 +115,7 @@ Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
                     }
 });</code>
                 </pre>
+                </div>
             </section>
 
             <section>
@@ -186,16 +185,14 @@ Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
                     }
 });</code>
                 </pre>
-                <aside class="notes">Modyfikacja obiektu</aside>
-            </section>
-
-            <section>
+                <div class="fragment">
                 <pre class="java"><code data-trim>
 Stream&lt;Invoice&gt; invoiceStream = service.updateInvoices(id,
     i -> new Invoice(i.getId(), i.getCustomer(), i.getTotal() + 1)
 );</code>
                 </pre>
-                <aside class="notes">Lepiej w Kotlinie albo builderem</aside>
+                </div>
+                <aside class="notes">Modyfikacja obiektu; Lepiej w Kotlinie albo builderem</aside>
             </section>
 
             <section>
@@ -223,16 +220,14 @@ if(one.isPresent()){
 }
 return one;</code>
                 </pre>
-                <aside class="notes">is czy if?</aside>
-            </section>
-
-            <section>
+                <div class="fragment">
                 <pre class="java"><code data-trim>
 Optional&lt;Invoice&gt; one = Optional.ofNullable(dao.findOne(id));
 one.ifPresent(i-> /*pewna logika*/);
 return one;</code>
                 </pre>
-                <aside class="notes"></aside>
+                </div>
+                <aside class="notes">is czy if?</aside>
             </section>
             <section>
                 <pre class="java"><code data-trim>
@@ -244,17 +239,15 @@ invoices.stream()
 		.map(fvM)
 		.reduce(summary);</code>
                 </pre>
-                <aside class="notes">Powtarzanie filtrowania</aside>
-            </section>
-
-            <section>
+                <div class="fragment">
                 <pre class="java"><code data-trim>
 invoices.stream()
 		.filter(notNull.and(notOlderThan).and(lessThan))
 		.map(asB2bInvoice.andThen(fvM))
 		.reduce(summary);</code>
                 </pre>
-                <aside class="notes"></aside>
+                </div>
+                <aside class="notes">Powtarzanie filtrowania</aside>
             </section>
 
             <section>
@@ -263,15 +256,13 @@ for(Invoice i : invoices){
     // 300 linii kodu
 }</code>
                 </pre>
-                <aside class="notes">foreachowanie</aside>
-            </section>
-
-            <section>
+                <div class="fragment">
                 <pre class="java"><code data-trim>
 invoices.foreach(i-> {
     // 300 linii kodu
 });</code>
                 </pre>
+                </div>
                 <aside class="notes">foreachowanie</aside>
             </section>
 
@@ -286,17 +277,15 @@ invoices.stream()
 		})
 		.reduce(itemSummary);</code>
                 </pre>
-                <aside class="notes">stream w straeamie</aside>
-            </section>
-
-            <section>
+                <div class="fragment">
                 <pre class="java"><code data-trim>
 invoices.stream(
 		.peek(i -> someOtherService.call(i.getCustomer())
 		.flatMap(i -> i.getItems().stream())
 		.reduce(itemSummary)</code>
                 </pre>
-                <aside class="notes">flatMap twoim przyjacielem</aside>
+                </div>
+                <aside class="notes">stream w straeamie; flatMap twoim przyjacielem</aside>
             </section>
 
         </section>
@@ -309,6 +298,7 @@ invoices.stream(
             <section>
                 <h2>O czym nie powiedziałem?</h2>
                 <p class="fragment">Javaslang</p>
+                <p class="fragment">Reactive</p>
                 <p class="fragment">Testowanie</p>
                 <p class="fragment">Myślenie FP</p>
             </section>
